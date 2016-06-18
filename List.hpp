@@ -27,6 +27,8 @@ public:
     bool empty() const { return nb==0; }
     bool resize(const unsigned int n=10);
     bool clear() { nb=0; return true; }
+    
+    // Access elements
     T& front();
     T& back();
     bool push_front(T t);

@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include "List.hpp"
+#include "Stack.hpp"
 
 using namespace std;
 
@@ -22,18 +23,18 @@ int main(int argc, const char * argv[]) {
     liste1.push_back(6);
     cout<<liste1<<endl;
     
-    List<int> liste2;
-    liste2.push_back(7);
-    liste2.push_back(8);
-    liste2.push_back(9);
-    liste2.push_back(10);
-    liste2.push_back(11);
-    liste2.push_back(12);
-    cout<<liste2<<endl;
+    Stack<int> stack;
+    stack.push(7);
+    stack.push(8);
+    stack.push(9);
+    stack.push(10);
+    stack.push(11);
+    stack.push(12);
     
-    liste1=liste2;
-    cout<<liste1<<endl;
-    cout<<liste2<<endl;
+    while(!stack.empty()) {
+        cout<<stack.top()<<endl;
+        stack.pop();
+    }
     
     return 0;
 }
