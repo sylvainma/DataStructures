@@ -15,14 +15,22 @@ using namespace std;
 int main(int argc, const char * argv[]) {
     
     List<int> liste1;
-    liste1.push_back(1);
-    liste1.push_back(2);
-    liste1.push_back(3);
-    liste1.push_back(4);
-    liste1.push_back(5);
     liste1.push_back(6);
+    liste1.push_back(2);
+    liste1.push_back(18);
+    liste1.push_back(9);
+    liste1.push_back(5);
+    liste1.push_back(10);
     cout<<liste1<<endl;
     
+    liste1.setSort(new Bubble<int>);
+    
+    liste1.sort();
+    
+    cout<<liste1<<endl;
+    
+    
+    /*
     Stack<int> stack;
     stack.push(7);
     stack.push(8);
@@ -35,6 +43,7 @@ int main(int argc, const char * argv[]) {
         cout<<stack.top()<<endl;
         stack.pop();
     }
+     */
     
     return 0;
 }

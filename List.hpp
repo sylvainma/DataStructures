@@ -9,6 +9,7 @@
 #ifndef List_hpp
 #define List_hpp
 #include "DSException.hpp"
+#include "Sort.hpp"
 #include <iostream>
 
 template<class T>
@@ -16,11 +17,12 @@ class List {
     T* list;
     unsigned int nb;
     unsigned int max;
+    Sort<T>* algoSort;
 public:
-    List():list(nullptr),nb(0),max(0){}
+    List():list(nullptr),nb(0),max(0),algoSort(new Insertion<T>){}
     List(const List<T>& l);
     void operator=(const List<T>& l);
-    ~List() {if(max>0) { delete[] list; list=nullptr; nb=0; max=0; } }
+    ~List();
     
     // Bases
     const unsigned int size() const { return nb; }
@@ -29,12 +31,19 @@ public:
     bool clear() { nb=0; return true; }
     
     // Access elements
+    T& operator[](unsigned int i);
+    
+    // Container methods
     T& front();
     T& back();
     bool push_front(T t);
     bool push_back(T t);
     bool pop_front();
     bool pop_back();
+    
+    // Sort
+    bool setSort(Sort<T>* s) { algoSort=s; return true; }
+    bool sort() { algoSort->sort(*this); return true; }
     
     // iterator
     class iterator {
@@ -81,6 +90,26 @@ void List<T>::operator=(const List<T>& l) {
     clear();
     for(typename List<T>::const_iterator it=l.cbegin(); it!=l.cend(); ++it)
         push_back(*it);
+}
+
+template<class T>
+List<T>::~List() {
+    // Delete list
+    if(max>0) {
+        delete[] list;
+        list=nullptr;
+        nb=0;
+        max=0;
+    }
+    
+    // Delete sort
+    if(algoSort!=nullptr) delete algoSort;
+}
+
+template<class T>
+T& List<T>::operator[](unsigned int i) {
+    if(i>=nb) throw DSException("Index overflow");
+    else return list[i];
 }
 
 template<class T>
