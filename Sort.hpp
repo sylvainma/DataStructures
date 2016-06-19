@@ -21,10 +21,10 @@ public:
 };
 
 /*
- *  Sort by insertion
+ *  Selection sort
  */
 template<class T>
-class Insertion : public Sort<T> {
+class Selection : public Sort<T> {
 public:
     void sort(List<T>& L) const {
         
@@ -71,7 +71,6 @@ public:
                 
                 // if right one is lower than left one
                 if(L[j]<L[j-1]) {
-                    
                     // Shift minimum to the left
                     T tmp = L[j];
                     L[j] = L[j-1];
@@ -80,6 +79,76 @@ public:
                 
             }
             
+        }
+        
+    }
+};
+
+/*
+ *  Insertion sort
+ */
+template<class T>
+class Insertion : public Sort<T> {
+public:
+    void sort(List<T>& L) const {
+        
+        unsigned int n=L.size();
+        
+        // For each case of the list, we're
+        // going to insert correctly the next one
+        for(unsigned int i=1; i<n; i++) {
+            
+            unsigned int j=i;
+            
+            while(j>0 && L[j]<L[j-1]) {
+                // Swap
+                T tmp = L[j];
+                L[j] = L[j-1];
+                L[j-1] = tmp;
+                j--;
+            }
+            
+        }
+        
+    }
+};
+
+/*
+ *  Quick sort
+ */
+template<class T>
+class Quick : public Sort<T> {
+public:
+    void sort(List<T>& L) const {
+        unsigned int n=L.size();
+        quicksort(L, 0, n-1);
+    }
+    
+    void quicksort(List<T>& L, unsigned int p, unsigned int r) const {
+        if(p<r) {
+            unsigned int q = partition(L, p, r);
+            quicksort(L, p, q);
+            quicksort(L, q+1, r);
+        }
+    }
+    
+    unsigned int partition(List<T>& L, unsigned int p, unsigned int r) const {
+        
+        T x=L[p];
+        unsigned int i=p-1;
+        unsigned int j=r+1;
+        
+        while(1) {
+            do { j--; } while(L[j]>x);
+            do { i++; } while(L[i]<x);
+            
+            if(i<j) {
+                // Swap
+                T tmp = L[j];
+                L[j] = L[i];
+                L[i] = tmp;
+            }
+            else return j;
         }
         
     }

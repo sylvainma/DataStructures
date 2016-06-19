@@ -17,9 +17,8 @@ class List {
     T* list;
     unsigned int nb;
     unsigned int max;
-    Sort<T>* algoSort;
 public:
-    List():list(nullptr),nb(0),max(0),algoSort(new Insertion<T>){}
+    List():list(nullptr),nb(0),max(0){}
     List(const List<T>& l);
     void operator=(const List<T>& l);
     ~List();
@@ -42,8 +41,7 @@ public:
     bool pop_back();
     
     // Sort
-    bool setSort(Sort<T>* s) { algoSort=s; return true; }
-    bool sort() { algoSort->sort(*this); return true; }
+    bool sort(unsigned int  i=0);
     
     // iterator
     class iterator {
@@ -102,8 +100,8 @@ List<T>::~List() {
         max=0;
     }
     
-    // Delete sort
-    if(algoSort!=nullptr) delete algoSort;
+    // Delete algoSort
+    //if(algoSort!=nullptr) delete algoSort;
 }
 
 template<class T>
@@ -189,6 +187,28 @@ bool List<T>::pop_back() {
     if(empty()) throw DSException("The list is empty");
     // Update size
     nb--;
+    return true;
+}
+
+template<class T>
+bool List<T>::sort(unsigned int  i) {
+    Sort<T>* algoSort;
+    switch (i) {
+        case 1:
+            algoSort=new Bubble<T>;
+            break;
+        case 2:
+            algoSort=new Insertion<T>;
+            break;
+        case 3:
+            algoSort=new Selection<T>;
+            break;
+        default:
+            algoSort=new Quick<T>;
+            break;
+    }
+    algoSort->sort(*this);
+    delete algoSort;
     return true;
 }
 

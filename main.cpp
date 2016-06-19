@@ -23,12 +23,8 @@ int main(int argc, const char * argv[]) {
     liste1.push_back(10);
     cout<<liste1<<endl;
     
-    liste1.setSort(new Bubble<int>);
-    
-    liste1.sort();
-    
+    liste1.sort(0);
     cout<<liste1<<endl;
-    
     
     /*
     Stack<int> stack;
