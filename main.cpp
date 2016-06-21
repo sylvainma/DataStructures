@@ -9,11 +9,13 @@
 #include <iostream>
 #include "List.hpp"
 #include "Stack.hpp"
+#include "BST.hpp"
 
 using namespace std;
 
 int main(int argc, const char * argv[]) {
     
+    /*
     List<int> liste1;
     liste1.push_back(6);
     liste1.push_back(2);
@@ -26,7 +28,6 @@ int main(int argc, const char * argv[]) {
     liste1.sort(0);
     cout<<liste1<<endl;
     
-    /*
     Stack<int> stack;
     stack.push(7);
     stack.push(8);
@@ -40,6 +41,21 @@ int main(int argc, const char * argv[]) {
         stack.pop();
     }
      */
+    
+    BST<int> abr;
+    abr.insert(2);
+    abr.insert(3);
+    abr.insert(4);
+    abr.insert(1);
+    abr.insert(9);
+    
+    BST<int>::Node* n = abr.search(4);
+    n = abr.successor(n);
+    if(n!=nullptr)
+        cout<<n->getKey()<<endl;
+    else
+        cout<<"nullptr"<<endl;
+    
     
     return 0;
 }
