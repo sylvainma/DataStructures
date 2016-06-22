@@ -44,17 +44,23 @@ int main(int argc, const char * argv[]) {
     
     BST<int> abr;
     abr.insert(2);
-    abr.insert(3);
+    abr.insert(5);
+    abr.insert(6);
     abr.insert(4);
     abr.insert(1);
     abr.insert(9);
     
+    abr.remove(5);
+    
     BST<int>::Node* n = abr.search(4);
-    n = abr.successor(n);
     if(n!=nullptr)
         cout<<n->getKey()<<endl;
     else
         cout<<"nullptr"<<endl;
+    
+    cout<<endl;
+    
+    abr.print();
     
     
     return 0;

@@ -26,7 +26,7 @@ public:
         /*
          *  Store the key of the node
          */
-        const T& key;
+        T key;
         
         /*
          *  Link to the father
@@ -44,9 +44,10 @@ public:
         Node* r;
         
     public:
-        Node(const T& k):key(k),f(nullptr),l(nullptr),r(nullptr){}
+        Node(T k):key(k),f(nullptr),l(nullptr),r(nullptr){}
+        ~Node() { f=nullptr; l=nullptr; r=nullptr; }
         const T& getKey() const { return key; }
-        void setKey(const T& k) { key=k; }
+        void setKey(T k) { key=k; }
     };
     
 private:
@@ -89,7 +90,7 @@ public:
     Node* minimum(Node* n=nullptr) const;
     
     /*
-     *  Find the sucessor of a node O(h)
+     *  Find the successor of a node O(h)
      */
     Node* successor(Node* x) const;
     
@@ -105,9 +106,15 @@ public:
     Node* search(const T& k, Node* x) const;
     
     /*
-     *  Insert a key T in the tree O(h)
+     *  Insert a key in the tree O(h)
      */
-    void insert(const T& k);
+    void insert(T k);
+    
+    /*
+     *  Delete a node in the tree O(h)
+     */
+    void remove(const T& k);
+    void remove(Node* x);
     
     /*
      *  Print the tree on the stream f
@@ -143,23 +150,26 @@ typename BST<T>::Node* BST<T>::minimum(Node* n) const {
 
 template<class T>
 typename BST<T>::Node* BST<T>::successor(Node* x) const {
-    if(x->r!=nullptr) return minimum(x->r);
-    else {
-        // Father of x
-        Node* y=x->f;
-        
-        // The successor of x is the first father
-        // whose x is the left son
-        while(y!=nullptr && x==y->r) {
-            x=y;
-            y=y->f;
+    if(x!=nullptr) {
+        if(x->r!=nullptr) return minimum(x->r);
+        else {
+            // Father of x
+            Node* y=x->f;
+            
+            // The successor of x is the first father
+            // whose x is the left son
+            while(y!=nullptr && x==y->r) {
+                x=y;
+                y=y->f;
+            }
+            
+            // if x was a left leaf son,
+            // its successor is its first
+            // father, y
+            return y;
         }
-        
-        // if x was a left leaf son,
-        // its successor is its first
-        // father, y
-        return y;
     }
+    else return nullptr;
 }
 
 template<class T>
@@ -200,7 +210,7 @@ typename BST<T>::Node* BST<T>::search(const T& k, Node* x) const {
 }
 
 template<class T>
-void BST<T>::insert(const T& k) {
+void BST<T>::insert(T k) {
     
     // Create the node
     Node* z = createNode(k);
@@ -231,6 +241,59 @@ void BST<T>::insert(const T& k) {
         // z is right son
         y->r=z;
 
+}
+
+template<class T>
+void BST<T>::remove(const T& k) {
+    Node* x = search(k);
+    remove(x);
+}
+
+template<class T>
+void BST<T>::remove(Node* x) {
+    if(x!=nullptr) {
+        
+        // 1st: the node hasn't son
+        if(x->l==nullptr && x->r==nullptr) {
+            if(x==x->f->l) x->f->l=nullptr;         // was left son
+            else if(x==x->f->r) x->f->r=nullptr;    // was right son
+            else root=nullptr;                      // was the root (BST with one node)
+            delete x;
+        }
+        // 2nd: the node has one son (left or right)
+        else if((x->l!=nullptr && x->r==nullptr) || (x->l==nullptr && x->r!=nullptr)) {
+            
+            // Find the son
+            Node* son;
+            if(x->l!=nullptr) son=x->l;
+            else son=x->r;
+            
+            // Link son to father (s->f)
+            son->f=x->f;
+            
+            // Link father to son (f->s)
+            if(x->f!=nullptr) {
+                if(x==x->f->l) x->f->l=son;
+                else x->f->r=son;
+            }
+            else root=son;
+            delete x;
+        }
+        // 3rd: the node has two sons
+        else if(x->l!=nullptr && x->r!=nullptr) {
+            
+            // Find successor
+            Node* s=successor(x);
+            const T& sk=s->getKey();
+            
+            // Delete the successor
+            remove(s);
+            
+            // Set x's key with its successor's key
+            x->setKey(sk);
+        }
+        
+    }
 }
 
 template<class T>
