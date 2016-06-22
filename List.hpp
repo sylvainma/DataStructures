@@ -25,6 +25,7 @@ public:
     
     // Bases
     const unsigned int size() const { return nb; }
+    const unsigned int length() const { return max; }
     bool empty() const { return nb==0; }
     bool resize(const unsigned int n=10);
     bool clear() { nb=0; return true; }
@@ -32,13 +33,15 @@ public:
     // Access elements
     T& operator[](unsigned int i);
     
-    // Container methods
+    // Inserters and deleters
     T& front();
     T& back();
     bool push_front(T t);
     bool push_back(T t);
     bool pop_front();
     bool pop_back();
+    void swap(unsigned int i, unsigned int j);
+    void set(unsigned int i, T t) { list[i]=t; }
     
     // Sort
     bool sort(unsigned int  i=0);
@@ -191,6 +194,15 @@ bool List<T>::pop_back() {
 }
 
 template<class T>
+void List<T>::swap(unsigned int i, unsigned int j) {
+    if(i<size() && j<size()) {
+        T temp=list[i];
+        list[i]=list[j];
+        list[j]=temp;
+    }
+}
+
+template<class T>
 bool List<T>::sort(unsigned int  i) {
     Sort<T>* algoSort;
     switch (i) {
@@ -215,7 +227,8 @@ bool List<T>::sort(unsigned int  i) {
 template<class T>
 std::ostream& operator<<(std::ostream& f, List<T>& list) {
     for(typename List<T>::const_iterator it=list.cbegin(); it!=list.cend(); ++it)
-        f<<*it<<"\n";
+        f<<*it<<" ";
+    f<<std::endl;
     return f;
 }
 

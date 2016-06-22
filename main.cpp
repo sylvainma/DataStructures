@@ -10,12 +10,12 @@
 #include "List.hpp"
 #include "Stack.hpp"
 #include "BST.hpp"
+#include "PriorityQueue.hpp"
 
 using namespace std;
 
 int main(int argc, const char * argv[]) {
     
-    /*
     List<int> liste1;
     liste1.push_back(6);
     liste1.push_back(2);
@@ -25,9 +25,31 @@ int main(int argc, const char * argv[]) {
     liste1.push_back(10);
     cout<<liste1<<endl;
     
-    liste1.sort(0);
-    cout<<liste1<<endl;
+    cout<<liste1.size()<<endl;
+    cout<<liste1.length()<<endl;
     
+    //liste1.sort(0);
+    //cout<<liste1<<endl;
+    
+    cout<<endl<<"Tas: "<<endl;
+    PriorityQueue<int>tas(liste1);
+    tas.print();
+    
+    cout<<endl<<"trié: "<<endl;
+    List<int> tasTrie=tas.heapsort();
+    cout<<tasTrie;
+    
+    cout<<endl<<"Insertion: "<<endl;
+    tas.insert(20);
+    tas.print();
+    
+    /*
+    cout<<endl<<"Max: "<<endl;
+    cout<<tas.extract()<<endl;
+    tas.print();
+    */
+    
+    /*
     Stack<int> stack;
     stack.push(7);
     stack.push(8);
@@ -42,6 +64,7 @@ int main(int argc, const char * argv[]) {
     }
      */
     
+    /*
     BST<int> abr;
     abr.insert(2);
     abr.insert(5);
@@ -61,7 +84,7 @@ int main(int argc, const char * argv[]) {
     cout<<endl;
     
     abr.print();
-    
+    */
     
     return 0;
 }

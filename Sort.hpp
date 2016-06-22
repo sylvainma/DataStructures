@@ -154,4 +154,8 @@ public:
     }
 };
 
+/*
+ *  Heap sort
+ */
+
 #endif /* Sort_hpp */
